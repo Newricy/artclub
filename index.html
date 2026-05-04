@@ -243,7 +243,7 @@ section{position:relative;overflow:hidden;}
   box-shadow:0 2px 20px rgba(180,160,200,0.12);
   transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
              box-shadow 0.35s;
-  opacity:0;animation:fadeUp 0.6s ease forwards;
+  opacity:1;
   position:relative;
 }
 .card:hover{
@@ -532,7 +532,7 @@ footer p{font-family:var(--jp);font-size:0.72rem;color:var(--ink3);letter-spacin
 // ======================================================
 // ★ここを書き換えてください★
 const SUPABASE_URL='https://ixldgmouqjbhbrnzdutr.supabase.co';
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4bGRnbW91cWpiaGJybnpkdXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NTI1NzAsImV4cCI6MjA5MzQyODU3MH0.zHQQdAJwbfx11lQ-RTONEXwq1KgIZKFe7KLC0v7Do8E';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4bGRnbW91cWpiaGJybnpkdXRyIiwicm9sZSI6ImFub24iLCJpYXQiOj';
 // ======================================================
 
 const DEMO=[
@@ -557,13 +557,13 @@ const PH=[
 let all=[],currentFilter='all';
 
 async function load(){
-  if(SUPABASE_URL!=='YOUR_SUPABASE_URL'){
+  if(SUPABASE_URL!=='https://ixldgmouqjbhbrnzdutr.supabase.co'){
     try{
       const{createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
       const sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
       const{data,error}=await sb.from('profiles').select('*').eq('is_public',true).order('created_at',{ascending:false});
       console.log('Supabase data:', data, 'error:', error);
-      if(data?.length){all=data;render(all);return;}
+      if(data&&data.length>0){all=data;render(all);return;}
     }catch(e){console.error('Supabase error:', e);}
   }
   all=DEMO;render(all);
@@ -584,7 +584,7 @@ function render(profiles){
 function makeCard(p,i){
   const a=document.createElement('a');
   a.className='card';
-  a.href=`profile/index.html?id=${p.id}`;
+  a.href=`/profile/?id=${p.id}`;
   a.style.animationDelay=Math.min(i*0.07,0.35)+'s';
   const ph=PH[i%PH.length];
   const art=p.artwork_url
