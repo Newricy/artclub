@@ -531,7 +531,7 @@ footer p{font-family:var(--jp);font-size:0.72rem;color:var(--ink3);letter-spacin
 <script>
 // ======================================================
 // ★ここを書き換えてください★
-const SUPABASE_URL='https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/';
+const SUPABASE_URL='https://ixldgmouqjbhbrnzdutr.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable__YTutkPyFLEb2sHOsHCMSA_Ou_uVmeB';
 // ======================================================
 
@@ -557,7 +557,7 @@ const PH=[
 let all=[],currentFilter='all';
 
 async function load(){
-  if(SUPABASE_URL!=='https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/'){
+  if(SUPABASE_URL!=='https://ixldgmouqjbhbrnzdutr.supabase.co'){
     try{
       const{createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
       const sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
