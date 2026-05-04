@@ -435,7 +435,7 @@ footer p{font-family:var(--jp);font-size:0.72rem;color:var(--ink3);letter-spacin
     <span class="nav-link" id="nav-count"></span>
     <a class="nav-link" href="#gallery">ギャラリー</a>
     <a class="nav-link" href="#about">アート部について</a>
-    <a class="nav-join" href="https://artself.vercel.app" target="_blank">参加する</a>
+    <a class="nav-join" href="https://artclub-tawny.vercel.app/art-profile-app.html" target="_blank">参加する</a>
   </div>
 </nav>
 
@@ -523,7 +523,7 @@ footer p{font-family:var(--jp);font-size:0.72rem;color:var(--ink3);letter-spacin
     <p>こころでつながる・つなげる組織へ</p>
   </div>
   <div style="text-align:right;">
-    <a class="footer-join" href="https://artself.vercel.app" target="_blank">参加する</a>
+    <a class="footer-join" href="https://artclub-tawny.vercel.app/art-profile-app.html" target="_blank">参加する</a>
     <div class="footer-copy">© docokaアート部</div>
   </div>
 </footer>
@@ -531,8 +531,9 @@ footer p{font-family:var(--jp);font-size:0.72rem;color:var(--ink3);letter-spacin
 <script>
 // ======================================================
 // ★ここを書き換えてください★
-const SUPABASE_URL = 'https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/';        // ← Project URLに書き換え
-const SUPABASE_ANON_KEY = 'sb_publishable__YTutkPyFLEb2sHOsHCMSA_Ou_uVmeB'; // ← Publishable keyに書き換え// ======================================================
+const SUPABASE_URL='https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/';
+const SUPABASE_ANON_KEY='sb_publishable__YTutkPyFLEb2sHOsHCMSA_Ou_uVmeB';
+// ======================================================
 
 const DEMO=[
   {id:'d1',name:'山田 彩',mbti:'INFP',sensibility_type:'光の中に影を探す詩人',color_word:'夜明けの金',keywords:['内省','余白','詩情','静謐'],artwork_url:'',created_at:'2025-04-01'},
@@ -556,7 +557,7 @@ const PH=[
 let all=[],currentFilter='all';
 
 async function load(){
-  if(SUPABASE_URL!=='YOUR_SUPABASE_URL'){
+  if(SUPABASE_URL!=='https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/'){
     try{
       const{createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
       const sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
