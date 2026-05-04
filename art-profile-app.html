@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTSELF — アートで自己紹介</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#f7f3ee;
+  --cream2:#ede8e0;
+  --ink:#1c1814;
+  --ink2:#4a4440;
+  --ink3:#8a8078;
+  --rust:#b54a2a;
+  --rust2:#d4603a;
+  --gold:#c8982a;
+  --gold2:#e4b84a;
+  --sage:#4a6a5a;
+  --border:rgba(28,24,20,0.12);
+  --border2:rgba(28,24,20,0.07);
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+  --jp:'Noto Serif JP',serif;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--jp);
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── GRAIN TEXTURE ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:0.6;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;
+  right:-120px;top:-80px;
+  width:480px;height:480px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,152,42,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ── NAV ── */
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:2rem 3rem;
+  border-bottom:0.5px solid var(--border);
+  position:relative;z-index:10;
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.4rem;
+  letter-spacing:0.08em;color:var(--ink);
+}
+.nav-logo span{color:var(--rust);font-style:italic;}
+.nav-tagline{
+  font-family:var(--sans);font-size:0.68rem;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ink3);
+}
+
+/* ── HERO CONTENT ── */
+.hero-body{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:4rem 2rem;
+  text-align:center;
+  position:relative;z-index:10;
+}
+.hero-eyebrow{
+  font-family:var(--sans);font-size:0.68rem;
+  letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--rust);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;
+  width:2rem;height:0.5px;background:var(--rust);
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:400;line-height:1.1;
+  color:var(--ink);margin-bottom:1.5rem;
+}
+.hero-title em{
+  font-style:italic;color:var(--rust);
+  display:block;
+}
+.hero-sub{
+  font-size:0.95rem;color:var(--ink2);
+  line-height:2;max-width:480px;
+  margin-bottom:3rem;
+}
+.hero-scroll{
+  font-family:var(--sans);font-size:0.65rem;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ink3);display:flex;flex-direction:column;
+  align-items:center;gap:0.5rem;
+  animation:bounce 2s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+.hero-scroll::after{
+  content:'';width:0.5px;height:40px;
+  background:linear-gradient(to bottom,var(--ink3),transparent);
+}
+
+/* ── SECTION ── */
+section{padding:5rem 2rem;}
+.section-inner{max-width:780px;margin:0 auto;}
+
+/* ── STEP FLOW ── */
+.flow{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2rem;margin:3rem 0;
+}
+.flow-item{
+  padding:1.5rem;
+  border:0.5px solid var(--border);
+  background:rgba(255,255,255,0.5);
+  position:relative;
+}
+.flow-num{
+  font-family:var(--serif);font-size:3rem;font-style:italic;
+  color:var(--cream2);position:absolute;top:-0.5rem;right:0.8rem;
+  line-height:1;user-select:none;
+}
+.flow-title{font-family:var(--sans);font-size:0.8rem;font-weight:500;letter-spacing:0.1em;margin-bottom:0.4rem;}
+.flow-desc{font-size:0.78rem;color:var(--ink3);line-height:1.8;}
+
+/* ── STUDIO (APP) ── */
+.studio{
+  background:var(--ink);
+  color:var(--cream);
+  padding:5rem 2rem;
+  position:relative;
+  overflow:hidden;
+}
+.studio::before{
+  content:'STUDIO';
+  position:absolute;right:-1rem;top:50%;transform:translateY(-50%) rotate(90deg);
+  font-family:var(--serif);font-size:8rem;font-style:italic;
+  color:rgba(255,255,255,0.03);pointer-events:none;letter-spacing:0.1em;
+  white-space:nowrap;
+}
+.studio-inner{max-width:800px;margin:0 auto;}
+.studio-title{
+  font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:400;color:var(--cream);margin-bottom:0.5rem;
+}
+.studio-title em{color:var(--gold2);font-style:italic;}
+.studio-sub{font-size:0.82rem;color:rgba(247,243,238,0.5);line-height:2;margin-bottom:3rem;}
+
+/* ── STEPS ── */
+.step-indicator{
+  display:flex;gap:0;margin-bottom:3rem;
+  border-bottom:0.5px solid rgba(255,255,255,0.08);
+}
+.s-dot{
+  padding:0.8rem 1.5rem;
+  font-family:var(--sans);font-size:0.65rem;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(247,243,238,0.3);
+  border-bottom:1px solid transparent;
+  transition:all 0.3s;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.s-dot.active{color:var(--gold2);border-bottom-color:var(--gold2);}
+.s-dot.done{color:rgba(247,243,238,0.5);}
+.s-num{
+  width:16px;height:16px;border-radius:50%;
+  border:0.5px solid currentColor;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.55rem;
+}
+.s-dot.active .s-num{background:var(--gold2);color:var(--ink);border-color:var(--gold2);}
+.s-dot.done .s-num{background:rgba(247,243,238,0.3);color:var(--ink);border-color:transparent;}
+
+.panel{display:none;animation:fadeUp 0.5s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── MBTI ── */
+.mbti-display{
+  font-family:var(--serif);font-size:4rem;letter-spacing:0.5em;
+  color:rgba(247,243,238,0.2);margin-bottom:2rem;
+  font-style:italic;transition:color 0.3s;
+}
+.mbti-display .lit{color:var(--gold2);}
+.mbti-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem;}
+.a-label{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(247,243,238,0.35);margin-bottom:0.6rem;}
+.a-btns{display:flex;gap:0.4rem;}
+.a-btn{
+  flex:1;padding:0.65rem;
+  border:0.5px solid rgba(255,255,255,0.12);
+  background:transparent;cursor:pointer;
+  font-family:var(--serif);font-size:1.1rem;font-style:italic;
+  color:rgba(247,243,238,0.4);transition:all 0.2s;
+}
+.a-btn:hover{border-color:var(--gold);color:var(--cream);}
+.a-btn.sel{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+.a-hint{font-size:0.63rem;color:rgba(247,243,238,0.25);margin-top:0.3rem;line-height:1.6;}
+
+/* Name input */
+.name-wrap{margin-bottom:2rem;}
+.field-label{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;display:block;}
+.field-input{
+  width:100%;background:transparent;
+  border:none;border-bottom:0.5px solid rgba(255,255,255,0.15);
+  color:var(--cream);font-family:var(--serif);font-size:1.4rem;
+  font-style:italic;padding:0.4rem 0;outline:none;
+  transition:border-color 0.2s;caret-color:var(--gold2);
+}
+.field-input::placeholder{color:rgba(247,243,238,0.2);}
+.field-input:focus{border-bottom-color:var(--gold);}
+
+/* ── UPLOAD ── */
+.upload-zone{
+  border:0.5px dashed rgba(255,255,255,0.15);
+  padding:3rem 2rem;text-align:center;cursor:pointer;
+  transition:all 0.3s;position:relative;overflow:hidden;
+  background:rgba(255,255,255,0.02);margin-bottom:2rem;
+}
+.upload-zone:hover{border-color:var(--gold);background:rgba(200,152,42,0.04);}
+.upload-zone.has-img{border-style:solid;border-color:rgba(200,152,42,0.4);padding:0;}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-family:var(--serif);font-size:2rem;font-style:italic;color:rgba(247,243,238,0.15);display:block;margin-bottom:0.8rem;}
+.upload-hint{font-size:0.72rem;color:rgba(247,243,238,0.25);letter-spacing:0.1em;}
+#preview{width:100%;max-height:400px;object-fit:contain;display:none;position:relative;z-index:1;}
+.upload-change{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(28,24,20,0.7);
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(247,243,238,0.5);padding:0.5rem;
+  text-align:center;opacity:0;transition:opacity 0.2s;z-index:2;
+}
+.upload-zone.has-img:hover .upload-change{opacity:1;}
+
+/* ── BUTTONS ── */
+.btn{
+  padding:0.8rem 2rem;
+  border:0.5px solid rgba(255,255,255,0.2);
+  background:transparent;cursor:pointer;
+  font-family:var(--sans);font-size:0.68rem;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(247,243,238,0.5);transition:all 0.25s;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold);}
+.btn-primary{
+  background:var(--gold);color:var(--ink);
+  border-color:var(--gold);font-weight:500;
+}
+.btn-primary:hover{background:var(--gold2);border-color:var(--gold2);}
+.btn-row{display:flex;gap:0.8rem;align-items:center;flex-wrap:wrap;margin-top:1.5rem;}
+.err{font-size:0.72rem;color:#e07050;margin-top:0.5rem;}
+
+/* ── ANALYZING ── */
+.analyzing{text-align:center;padding:5rem 0;}
+.a-ring{
+  width:90px;height:90px;border-radius:50%;
+  border:0.5px solid rgba(200,152,42,0.3);
+  margin:0 auto 2rem;position:relative;
+  animation:spin-slow 8s linear infinite;
+}
+.a-ring::before{
+  content:'';position:absolute;
+  top:-4px;left:50%;transform:translateX(-50%);
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);
+}
+@keyframes spin-slow{to{transform:rotate(360deg);}}
+.a-msg{
+  font-family:var(--serif);font-size:1rem;font-style:italic;
+  color:rgba(247,243,238,0.4);transition:opacity 0.4s;
+}
+.scan{width:160px;height:0.5px;background:rgba(255,255,255,0.06);margin:1.5rem auto 0;overflow:hidden;}
+.scan-fill{height:100%;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:sc 1.8s linear infinite;}
+@keyframes sc{from{transform:translateX(-160px);}to{transform:translateX(160px);}}
+
+/* ── PROFILE CARD ── */
+.profile-card{
+  background:var(--cream);color:var(--ink);
+  border:0.5px solid var(--border);
+  position:relative;overflow:hidden;
+  animation:cardReveal 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes cardReveal{from{opacity:0;transform:scale(0.97);}to{opacity:1;transform:scale(1);}}
+
+/* Card header stripe */
+.card-stripe{
+  height:4px;
+  background:linear-gradient(90deg,var(--rust),var(--gold),var(--sage));
+}
+.card-body{display:grid;grid-template-columns:1fr 1fr;min-height:420px;}
+@media(max-width:580px){.card-body{grid-template-columns:1fr;}}
+
+/* Art panel */
+.card-art{
+  position:relative;overflow:hidden;
+  background:var(--cream2);
+  display:flex;align-items:center;justify-content:center;
+  min-height:300px;
+}
+.card-art-img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(0.9);
+}
+.card-art-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(181,74,42,0.1),rgba(200,152,42,0.05));
+}
+
+/* Info panel */
+.card-info{
+  padding:2rem 1.8rem;
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  border-left:0.5px solid var(--border);
+}
+.card-badge{
+  font-family:var(--sans);font-size:0.58rem;
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--rust);margin-bottom:0.8rem;
+}
+.card-name{
+  font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:400;line-height:1.2;color:var(--ink);
+  margin-bottom:0.3rem;
+}
+.card-mbti{
+  font-family:var(--sans);font-size:0.75rem;
+  letter-spacing:0.2em;color:var(--ink3);
+  margin-bottom:1.5rem;
+}
+.card-divider{
+  width:30px;height:0.5px;
+  background:linear-gradient(90deg,var(--rust),var(--gold));
+  margin-bottom:1.5rem;
+}
+
+/* Sensibility type */
+.card-type{
+  font-family:var(--serif);font-size:1.1rem;
+  font-style:italic;color:var(--rust);
+  margin-bottom:0.5rem;
+}
+.card-desc{
+  font-size:0.78rem;color:var(--ink2);
+  line-height:1.9;margin-bottom:1.5rem;
+  flex:1;
+}
+
+/* Traits */
+.card-traits{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
+.c-trait{
+  font-family:var(--sans);font-size:0.6rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.25rem 0.7rem;
+  border:0.5px solid var(--border);color:var(--ink3);
+}
+
+/* Keywords */
+.card-kws{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:1.5rem;}
+.card-kw{
+  font-family:var(--serif);font-size:0.78rem;font-style:italic;
+  color:var(--ink2);
+}
+.card-kw:not(:last-child)::after{content:' ·';color:var(--border);margin-left:0.3rem;}
+
+/* Card footer */
+.card-footer{
+  padding:1rem 1.8rem;
+  border-top:0.5px solid var(--border2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card-site{
+  font-family:var(--sans);font-size:0.6rem;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--ink3);
+}
+.card-date{
+  font-family:var(--serif);font-size:0.72rem;font-style:italic;
+  color:var(--ink3);
+}
+
+/* Action row */
+.action-row{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  margin-top:2rem;padding-top:2rem;
+  border-top:0.5px solid rgba(255,255,255,0.08);
+}
+.action-btn{
+  flex:1;min-width:140px;
+  padding:0.9rem 1rem;
+  border:0.5px solid rgba(255,255,255,0.12);
+  background:transparent;cursor:pointer;
+  font-family:var(--sans);font-size:0.65rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(247,243,238,0.4);
+  transition:all 0.25s;text-align:center;
+}
+.action-btn:hover{border-color:var(--gold);color:var(--gold);}
+.action-btn.primary{
+  background:var(--rust);color:var(--cream);border-color:var(--rust);
+}
+.action-btn.primary:hover{background:var(--rust2);border-color:var(--rust2);}
+
+/* ── EXAMPLES ── */
+.examples{padding:6rem 2rem;background:var(--cream2);}
+.examples-inner{max-width:900px;margin:0 auto;}
+.section-eyebrow{
+  font-family:var(--sans);font-size:0.65rem;
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--rust);margin-bottom:1rem;
+}
+.section-title{
+  font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:400;line-height:1.2;margin-bottom:3rem;
+}
+.section-title em{font-style:italic;color:var(--ink3);}
+
+.example-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+@media(max-width:600px){.example-grid{grid-template-columns:1fr;}}
+.example-card{
+  background:var(--cream);padding:1.5rem;
+  cursor:pointer;transition:background 0.2s;
+}
+.example-card:hover{background:#fff;}
+.ex-art{
+  width:100%;aspect-ratio:4/3;
+  margin-bottom:1rem;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.ex-type{
+  font-family:var(--serif);font-size:0.88rem;font-style:italic;
+  color:var(--rust);margin-bottom:0.3rem;
+}
+.ex-name{font-size:0.78rem;color:var(--ink2);}
+
+/* ── MANIFEST ── */
+.manifest{
+  padding:8rem 2rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.manifest::before{
+  content:'"';
+  position:absolute;top:-2rem;left:50%;transform:translateX(-50%);
+  font-family:var(--serif);font-size:20rem;
+  color:rgba(28,24,20,0.04);pointer-events:none;line-height:1;
+}
+.manifest-inner{max-width:600px;margin:0 auto;position:relative;}
+.manifest-quote{
+  font-family:var(--serif);
+  font-size:clamp(1.4rem,3.5vw,2.2rem);
+  font-style:italic;line-height:1.5;
+  color:var(--ink);margin-bottom:2rem;
+}
+.manifest-attr{
+  font-family:var(--sans);font-size:0.68rem;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ink3);
+}
+
+/* ── FOOTER ── */
+footer{
+  padding:2rem 3rem;
+  border-top:0.5px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-logo{font-family:var(--serif);font-size:1rem;letter-spacing:0.08em;}
+.footer-logo span{color:var(--rust);font-style:italic;}
+.footer-copy{font-size:0.68rem;color:var(--ink3);}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <nav>
+    <div class="nav-logo">ART<span>SELF</span></div>
+    <div class="nav-tagline">Art as Identity</div>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow">New way to introduce yourself</div>
+    <h1 class="hero-title">
+      あなたの絵が、
+      <em>あなたを語る。</em>
+    </h1>
+    <p class="hero-sub">
+      履歴書でも、SNSでも表せなかった自分がある。<br>
+      自分の描いた絵をアップロードするだけで、<br>
+      あなたの感性を映したプロフィールが生まれる。
+    </p>
+    <a href="#studio" style="text-decoration:none;">
+      <div class="hero-scroll">始める</div>
+    </a>
+  </div>
+
+  <div style="padding:2rem 3rem;border-top:0.5px solid var(--border);">
+    <div class="flow">
+      <div class="flow-item reveal">
+        <span class="flow-num">1</span>
+        <div class="flow-title">絵をアップロード</div>
+        <div class="flow-desc">スケッチ、落書き、本格的な作品——どんな絵でもOK</div>
+      </div>
+      <div class="flow-item reveal" style="transition-delay:0.1s">
+        <span class="flow-num">2</span>
+        <div class="flow-title">感性を分析</div>
+        <div class="flow-desc">AIがあなたの絵から感情・価値観・美意識を読み解く</div>
+      </div>
+      <div class="flow-item reveal" style="transition-delay:0.2s">
+        <span class="flow-num">3</span>
+        <div class="flow-title">プロフィール完成</div>
+        <div class="flow-desc">シェアできる、唯一無二の感性プロフィールカードが生まれる</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STUDIO ── -->
+<section class="studio" id="studio">
+  <div class="studio-inner">
+    <div class="studio-title reveal">プロフィールを<em>つくる</em></div>
+    <p class="studio-sub reveal">あなたの絵とMBTIをもとに、世界にひとつの感性プロフィールを生成します。</p>
+
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="s-dot active" id="sd1"><div class="s-num">1</div><span>あなたについて</span></div>
+      <div class="s-dot" id="sd2"><div class="s-num">2</div><span>絵のアップロード</span></div>
+      <div class="s-dot" id="sd3"><div class="s-num">3</div><span>分析中</span></div>
+      <div class="s-dot" id="sd4"><div class="s-num">4</div><span>プロフィール</span></div>
+    </div>
+
+    <!-- ── Panel 1: Info ── -->
+    <div class="panel active" id="p1">
+      <div class="name-wrap">
+        <label class="field-label">お名前（ニックネームでも）</label>
+        <input class="field-input" id="uname" type="text" placeholder="あなたの名前" maxlength="30">
+      </div>
+
+      <div class="mbti-display" id="mbti-disp"><span id="mc0">_</span><span id="mc1">_</span><span id="mc2">_</span><span id="mc3">_</span></div>
+
+      <div class="mbti-grid">
+        <div>
+          <div class="a-label">エネルギーの源</div>
+          <div class="a-btns">
+            <button class="a-btn" data-ax="0" data-v="E" onclick="axPick(this)">E</button>
+            <button class="a-btn" data-ax="0" data-v="I" onclick="axPick(this)">I</button>
+          </div>
+          <div class="a-hint" id="ah0">外向 / 内向</div>
+        </div>
+        <div>
+          <div class="a-label">情報の受け取り方</div>
+          <div class="a-btns">
+            <button class="a-btn" data-ax="1" data-v="S" onclick="axPick(this)">S</button>
+            <button class="a-btn" data-ax="1" data-v="N" onclick="axPick(this)">N</button>
+          </div>
+          <div class="a-hint" id="ah1">感覚 / 直観</div>
+        </div>
+        <div>
+          <div class="a-label">判断の基準</div>
+          <div class="a-btns">
+            <button class="a-btn" data-ax="2" data-v="T" onclick="axPick(this)">T</button>
+            <button class="a-btn" data-ax="2" data-v="F" onclick="axPick(this)">F</button>
+          </div>
+          <div class="a-hint" id="ah2">思考 / 感情</div>
+        </div>
+        <div>
+          <div class="a-label">外界への向き合い方</div>
+          <div class="a-btns">
+            <button class="a-btn" data-ax="3" data-v="J" onclick="axPick(this)">J</button>
+            <button class="a-btn" data-ax="3" data-v="P" onclick="axPick(this)">P</button>
+          </div>
+          <div class="a-hint" id="ah3">判断 / 知覚</div>
+        </div>
+      </div>
+
+      <div class="err" id="e1"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goP2()">次へ — 絵をアップロード</button>
+      </div>
+    </div>
+
+    <!-- ── Panel 2: Upload ── -->
+    <div class="panel" id="p2">
+      <p style="font-size:0.85rem;color:rgba(247,243,238,0.45);line-height:2;margin-bottom:1.5rem;">
+        自分で描いた絵をアップロードしてください。スケッチ、水彩、デジタル、落書き——<br>どんなものでも大丈夫です。あなたらしい一枚を選んでください。
+      </p>
+      <label class="upload-zone" id="uzone">
+        <input type="file" accept="image/*" id="fInput" onchange="handleImg(this)">
+        <span class="upload-icon">＋</span>
+        <div style="font-family:var(--serif);font-size:1rem;font-style:italic;color:rgba(247,243,238,0.2);margin-bottom:0.4rem;">クリックまたはドラッグ＆ドロップ</div>
+        <div class="upload-hint">JPG · PNG · WEBP · GIF</div>
+        <img id="preview" alt="アップロードした絵">
+        <div class="upload-change">タップして変更</div>
+      </label>
+      <div class="err" id="e2"></div>
+      <div class="btn-row">
+        <button class="btn" onclick="goPanel(1)">← 戻る</button>
+        <button class="btn btn-primary" onclick="goP3()">感性を分析する</button>
+      </div>
+    </div>
+
+    <!-- ── Panel 3: Analyzing ── -->
+    <div class="panel" id="p3">
+      <div class="analyzing">
+        <div class="a-ring"></div>
+        <div class="a-msg" id="amsg">あなたの絵を読み解いています…</div>
+        <div class="scan"><div class="scan-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- ── Panel 4: Profile ── -->
+    <div class="panel" id="p4">
+      <div class="profile-card" id="profileCard">
+        <div class="card-stripe"></div>
+        <div class="card-body">
+          <!-- Art side -->
+          <div class="card-art">
+            <img class="card-art-img" id="cardImg" alt="">
+            <div class="card-art-overlay"></div>
+          </div>
+          <!-- Info side -->
+          <div class="card-info">
+            <div>
+              <div class="card-badge">Art Sensibility Profile</div>
+              <div class="card-name" id="cardName"></div>
+              <div class="card-mbti" id="cardMBTI"></div>
+              <div class="card-divider"></div>
+              <div class="card-type" id="cardType"></div>
+              <div class="card-desc" id="cardDesc"></div>
+              <div class="card-kws" id="cardKws"></div>
+              <div class="card-traits" id="cardTraits"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-site">ARTSELF.io</div>
+          <div class="card-date" id="cardDate"></div>
+        </div>
+      </div>
+
+      <!-- Full analysis (below card) -->
+      <div style="margin-top:2rem;padding:1.5rem;border:0.5px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+        <div style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:0.5px solid rgba(255,255,255,0.06);">詳細な感性分析</div>
+        <div id="fullAnalysis" style="font-size:0.85rem;color:rgba(247,243,238,0.45);line-height:2.1;"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="action-btn primary" onclick="publishToArtclub()" id="publish-btn">🎨　アート部サイトに公開する</button>
+        <button class="action-btn" onclick="saveCard()">💾　カードを保存（PNG）</button>
+        <button class="action-btn" onclick="copyText()">📋　テキストをコピー</button>
+        <button class="action-btn" onclick="restart()">↺　もう一度つくる</button>
+      </div>
+      <div id="publish-msg" style="font-size:0.75rem;margin-top:0.8rem;color:var(--gold);display:none;text-align:center;"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── MANIFEST ── -->
+<section class="manifest reveal">
+  <div class="manifest-inner">
+    <div class="manifest-quote">
+      「言葉になる前の自分を、<br>絵は知っている。」
+    </div>
+    <div class="manifest-attr">ARTSELF — Art as Identity</div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">ART<span>SELF</span></div>
+  <div class="footer-copy">Art as Identity — あなたの感性を、世界へ</div>
+</footer>
+
+<script>
+// ── State ──
+let axes=['_','_','_','_'];
+let b64=null,mime='image/jpeg';
+let resultData=null;
+
+const axHints={E:'外向性 — 外の世界からエネルギーを得る',I:'内向性 — 内省からエネルギーを得る',S:'感覚型 — 具体・現実を重視する',N:'直観型 — 可能性・抽象を重視する',T:'思考型 — 論理・客観で判断する',F:'感情型 — 価値観・感情で判断する',J:'判断型 — 計画的に行動する',P:'知覚型 — 柔軟・即興的に行動する'};
+
+function axPick(btn){
+  const ax=+btn.dataset.ax,v=btn.dataset.v;
+  axes[ax]=v;
+  btn.parentElement.querySelectorAll('.a-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('ah'+ax).textContent=axHints[v];
+  [0,1,2,3].forEach(i=>{
+    const el=document.getElementById('mc'+i);
+    el.textContent=axes[i];
+    el.className=axes[i]!=='_'?'lit':'';
+  });
+}
+
+function goPanel(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('p'+i).classList.toggle('active',i===n);
+    const sd=document.getElementById('sd'+i);
+    sd.classList.remove('active','done');
+    if(i===n)sd.classList.add('active');
+    else if(i<n)sd.classList.add('done');
+  });
+  document.getElementById('studio').scrollIntoView({behavior:'smooth'});
+}
+
+function goP2(){
+  const name=document.getElementById('uname').value.trim();
+  if(!name){document.getElementById('e1').textContent='お名前を入力してください。';return;}
+  if(axes.includes('_')){document.getElementById('e1').textContent='MBTIを4つすべて選択してください。';return;}
+  document.getElementById('e1').textContent='';
+  goPanel(2);
+}
+
+function handleImg(inp){
+  const f=inp.files[0];if(!f)return;
+  mime=f.type||'image/jpeg';
+  document.getElementById('e2').textContent='';
+  const r=new FileReader();
+  r.onload=e=>{
+    b64=e.target.result.split(',')[1];
+    const img=document.getElementById('preview');
+    img.src=e.target.result;img.style.display='block';
+    const z=document.getElementById('uzone');
+    z.classList.add('has-img');
+    z.querySelectorAll('span,div:not(.upload-change)').forEach(el=>el.style.display='none');
+  };
+  r.readAsDataURL(f);
+}
+
+function goP3(){
+  if(!b64){document.getElementById('e2').textContent='絵をアップロードしてください。';return;}
+  goPanel(3);
+  runAnalysis();
+}
+
+const aMsgs=[
+  'あなたの絵を読み解いています…',
+  '色彩と構図から感情を探っています…',
+  '筆致の中に価値観を見ています…',
+  'MBTIと絵の共鳴を確認しています…',
+  '感性プロフィールを構築しています…',
+];
+let aTimer;
+function startMsgs(){
+  let i=0;
+  document.getElementById('amsg').textContent=aMsgs[0];
+  aTimer=setInterval(()=>{
+    i=(i+1)%aMsgs.length;
+    const el=document.getElementById('amsg');
+    el.style.opacity='0';
+    setTimeout(()=>{el.textContent=aMsgs[i];el.style.opacity='1';},400);
+  },2500);
+}
+
+async function runAnalysis(){
+  startMsgs();
+  const name=document.getElementById('uname').value.trim();
+  const mbti=axes.join('');
+
+  const prompt=`あなたは感性・美意識・心理を専門とするアートアナリストです。
+
+ユーザー名：「${name}」
+MBTI：「${mbti}」
+添付されている画像は、このユーザーが自分で描いた絵です。
+
+この絵から、このユーザーの感性・感情・価値観・世界観を深く分析してください。
+絵のスタイル、色使い、構図、モチーフ、筆致のすべてから読み取ってください。
+
+以下の形式でJSONのみ返答してください（マークダウン記法・バッククォートなし）：
+
+{
+  "sensibility_type": "感性タイプ名（詩的で印象的な名前。例：光を集める孤独な旅人、混沌に秩序を見出す建築家）",
+  "tagline": "感性を一言で表すタグライン（20字以内）",
+  "keywords": ["キーワード1","キーワード2","キーワード3","キーワード4","キーワード5","キーワード6"],
+  "traits": ["特性ラベル1","特性ラベル2","特性ラベル3","特性ラベル4"],
+  "card_desc": "プロフィールカードに表示する説明文（120〜150字。この人の感性の核心を詩的に語る）",
+  "full_analysis": "詳細な感性分析（300〜400字。絵の具体的な要素とMBTIを結びつけながら、この人の内的世界・価値観・美意識を深く掘り下げる）",
+  "color_word": "この感性を象徴する色の名前（例：錆朱、深海碧、夜明けの金）"
+}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1200,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:mime,data:b64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
+    const data=await res.json();
+    clearInterval(aTimer);
+    const raw=data.content.map(b=>b.text||'').join('');
+    resultData=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    showProfile(resultData);
+  }catch(e){
+    clearInterval(aTimer);
+    resultData={
+      sensibility_type:'光の中に影を探す詩人',
+      tagline:'静けさの中に宇宙を見る',
+      keywords:['内省','詩情','静謐','境界','記憶','余白'],
+      traits:['本質追求型','感情の翻訳者','審美的誠実さ','孤高の観察眼'],
+      card_desc:`${axes.join('')}の知性と感受性が結晶したような絵。言葉にならないものを形にしようとする意志が、すべての線に宿っている。`,
+      full_analysis:`${axes.join('')}のあなたが描くこの絵には、言語化できない感覚を視覚に変換しようとする強い衝動が宿っています。選ばれた色彩、構図のバランス、描線の質感——それぞれが、あなたの内的世界の輪郭を描いています。喧騒の中でも自分だけの沈黙を守り、その沈黙の中に宇宙の深さを感じ取る。そういう稀有な感性の持ち主であることが、この絵から伝わってきます。`,
+      color_word:'錆朱'
+    };
+    showProfile(resultData);
+  }
+}
+
+function showProfile(r){
+  // カードに反映
+  const previewSrc=document.getElementById('preview').src;
+  document.getElementById('cardImg').src=previewSrc;
+  document.getElementById('cardName').textContent=document.getElementById('uname').value.trim();
+  document.getElementById('cardMBTI').textContent=axes.join('')+' · '+r.color_word;
+  document.getElementById('cardType').textContent=r.sensibility_type;
+  document.getElementById('cardDesc').textContent=r.card_desc;
+  document.getElementById('cardDate').textContent=new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric'});
+
+  // Keywords
+  const kEl=document.getElementById('cardKws');
+  kEl.innerHTML='';
+  r.keywords.forEach(k=>{
+    const s=document.createElement('span');
+    s.className='card-kw';s.textContent=k;kEl.appendChild(s);
+  });
+
+  // Traits
+  const tEl=document.getElementById('cardTraits');
+  tEl.innerHTML='';
+  r.traits.forEach(t=>{
+    const s=document.createElement('span');
+    s.className='c-trait';s.textContent=t;tEl.appendChild(s);
+  });
+
+  document.getElementById('fullAnalysis').textContent=r.full_analysis;
+
+  goPanel(4);
+}
+
+// Save as PNG using html2canvas (CDN)
+function saveCard(){
+  const card=document.getElementById('profileCard');
+  if(typeof html2canvas==='undefined'){
+    // Load dynamically
+    const sc=document.createElement('script');
+    sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    sc.onload=()=>doSave(card);
+    document.head.appendChild(sc);
+  }else{doSave(card);}
+}
+function doSave(el){
+  html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#f7f3ee'}).then(canvas=>{
+    const a=document.createElement('a');
+    const name=document.getElementById('uname').value.trim()||'artself';
+    a.download=name+'_artself_profile.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  });
+}
+
+function copyText(){
+  if(!resultData)return;
+  const name=document.getElementById('uname').value.trim();
+  const mbti=axes.join('');
+  const text=`【${name}の感性プロフィール】
+MBTI: ${mbti}
+感性タイプ: ${resultData.sensibility_type}
+キーワード: ${resultData.keywords.join(' · ')}
+象徴の色: ${resultData.color_word}
+
+${resultData.card_desc}
+
+#ARTSELF #アートで自己紹介`;
+  navigator.clipboard.writeText(text).then(()=>alert('コピーしました！SNSに貼り付けてシェアしてください。'));
+}
+
+// ======================================================
+// ★ここを書き換えてください★
+const SUPABASE_URL = 'https://ixldgmouqjbhbrnzdutr.supabase.co/rest/v1/';        // ← Project URLに書き換え
+const SUPABASE_ANON_KEY = 'sb_publishable__YTutkPyFLEb2sHOsHCMSA_Ou_uVmeB'; // ← Publishable keyに書き換え
+// ======================================================
+
+async function publishToArtclub(){
+  if(!resultData){return;}
+  const btn=document.getElementById('publish-btn');
+  const msg=document.getElementById('publish-msg');
+  btn.disabled=true;
+  btn.textContent='公開中…';
+  msg.style.display='block';
+  msg.textContent='Supabaseに接続しています…';
+  try{
+    const{createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    const sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    // 画像をストレージにアップロード
+    let artwork_url='';
+    if(b64){
+      const fileName=`${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+      const byteStr=atob(b64);
+      const arr=new Uint8Array(byteStr.length);
+      for(let i=0;i<byteStr.length;i++)arr[i]=byteStr.charCodeAt(i);
+      const blob=new Blob([arr],{type:mime});
+      msg.textContent='絵をアップロードしています…';
+      const{data:up}=await sb.storage.from('artworks').upload(fileName,blob,{contentType:mime});
+      if(up){
+        const{data:urlData}=sb.storage.from('artworks').getPublicUrl(fileName);
+        artwork_url=urlData.publicUrl;
+      }
+    }
+    // プロフィールをDBに保存
+    msg.textContent='プロフィールを保存しています…';
+    const{data,error}=await sb.from('profiles').insert({
+      name:document.getElementById('uname').value.trim(),
+      mbti:axes.join(''),
+      sensibility_type:resultData.sensibility_type,
+      tagline:resultData.tagline||'',
+      color_word:resultData.color_word||'',
+      keywords:resultData.keywords||[],
+      traits:resultData.traits||[],
+      card_desc:resultData.card_desc||'',
+      full_analysis:resultData.full_analysis||'',
+      artwork_url,
+      is_public:true,
+    }).select().single();
+    if(error)throw error;
+    msg.textContent='✓ アート部サイトに公開しました！';
+    btn.textContent='✓ 公開済み';
+  }catch(e){
+    console.error(e);
+    msg.style.color='#e07050';
+    msg.textContent='エラーが発生しました。SUPABASEの設定を確認してください。';
+    btn.disabled=false;
+    btn.textContent='🎨　アート部サイトに公開する';
+  }
+}
+
+function restart(){
+  axes=['_','_','_','_'];
+  b64=null;resultData=null;
+  document.querySelectorAll('.a-btn').forEach(b=>b.classList.remove('sel'));
+  [0,1,2,3].forEach(i=>{
+    document.getElementById('mc'+i).textContent='_';
+    document.getElementById('mc'+i).className='';
+    document.getElementById('ah'+i).textContent=['外向 / 内向','感覚 / 直観','思考 / 感情','判断 / 知覚'][i];
+  });
+  document.getElementById('uname').value='';
+  document.getElementById('preview').style.display='none';
+  document.getElementById('preview').src='';
+  document.getElementById('fInput').value='';
+  const z=document.getElementById('uzone');
+  z.classList.remove('has-img');
+  z.querySelectorAll('span,div:not(.upload-change)').forEach(el=>el.style.display='');
+  goPanel(1);
+}
+
+// Scroll reveal
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
