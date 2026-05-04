@@ -290,16 +290,112 @@ const PLACEHOLDER_SVG = `<svg viewBox="0 0 200 150" xmlns="http://www.w3.org/200
 async function loadProfile() {
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
+
   if (!id) { showError('プロフィールが見つかりません'); return; }
+
   let profile = null;
-  try {
-    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-    const supabase = createClient('https://ixldgmouqjbhbrnzdutr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4bGRnbW91cWpiaGJybnpkdXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NTI1NzAsImV4cCI6MjA5MzQyODU3MH0.zHQQdAJwbfx11lQ-RTONEXwq1KgIZKFe7KLC0v7Do8E');
-    const { data } = await supabase.from('profiles').select('*').eq('id', id).single();
-    if (data) profile = data;
+
+  // Supabase接続を試みる
+  if (SUPABASE_URL !== 'https://ixldgmouqjbhbrnzdutr.supabase.co') {
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { data } = await supabase.from('profiles').select('*').eq('id', id).single();
+      if (data) profile = data;
   } catch(e) { console.error('error:', e); }
+
+  // デモデータにフォールバック
+  if (!profile) profile = DEMO_PROFILES[id];
   if (!profile) { showError('プロフィールが見つかりません'); return; }
+
   renderProfile(profile);
+}
+
+function renderProfile(p) {
+  document.title = `${p.name} — アート部`;
+
+  const artContent = p.artwork_url
+    ? `<img class="artwork-img" src="${p.artwork_url}" alt="${p.name}の作品">`
+    : `<div class="artwork-img" style="display:flex;align-items:center;justify-content:center;">${PLACEHOLDER_SVG}</div>`;
+
+  const miniArt = p.artwork_url
+    ? `<img src="${p.artwork_url}" alt="" style="width:100%;height:100%;object-fit:cover;">`
+    : PLACEHOLDER_SVG;
+
+  const kws = (p.keywords||[]).map((k,i) =>
+    `<span class="kw-pill${i<2?' accent':''}">${k}</span>`).join('');
+
+  const traits = (p.traits||[]).map(t =>
+    `<span class="trait-tag">${t}</span>`).join('');
+
+  const dateStr = new Date(p.created_at).toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric'});
+
+  document.getElementById('content').innerHTML = `
+    <div class="profile-header">
+      <div class="artwork-wrap">
+        <div class="artwork-tape" style="width:55px;height:18px;top:-10px;left:15%;transform:rotate(-8deg);"></div>
+        <div class="artwork-tape" style="width:45px;height:16px;top:-8px;right:10%;transform:rotate(6deg);"></div>
+        <div class="artwork-frame">${artContent}</div>
+        <div class="artwork-caption">${p.name}の作品 · ${dateStr}</div>
+      </div>
+
+      <div class="identity">
+        <div class="identity-stamp">Art Sensibility Profile</div>
+        <h1 class="identity-name">${p.name}</h1>
+        <div class="identity-mbti">${p.mbti} · ${p.color_word||''}</div>
+        <div class="type-big">「${p.sensibility_type}」</div>
+        <p class="card-desc-text">${p.card_desc||''}</p>
+        <div class="keywords-wrap">${kws}</div>
+        <div class="traits-wrap">${traits}</div>
+        ${p.color_word ? `<div class="color-badge">
+          <div class="color-swatch"></div>
+          感性の色：${p.color_word}
+        </div>` : ''}
+      </div>
+    </div>
+
+    ${p.full_analysis ? `
+    <div class="zine-divider"><span class="zine-divider-text">✦ 感性の分析 ✦</span></div>
+    <div class="analysis-section">
+      <div class="analysis-label">詳細な感性分析</div>
+      <p class="analysis-text">${p.full_analysis}</p>
+    </div>` : ''}
+
+    <div class="zine-divider"><span class="zine-divider-text">✦ プロフィールカード ✦</span></div>
+
+    <div class="mini-card-wrap">
+      <div class="mini-card">
+        <div class="mini-card-art">${miniArt}</div>
+        <div class="mini-card-info">
+          <div class="mini-card-name">${p.name}</div>
+          <div class="mini-card-sub">${p.mbti} · ${p.color_word||''}</div>
+          <div class="mini-card-type">「${p.sensibility_type}」</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="share-row">
+      <button class="share-btn primary" onclick="copyProfile()">テキストをコピー</button>
+      <button class="share-btn" onclick="history.back()">← 一覧に戻る</button>
+    </div>`;
+
+  // copyProfile function
+  window._profile = p;
+}
+
+function copyProfile() {
+  const p = window._profile;
+  if (!p) return;
+  const text = `【${p.name}の感性プロフィール】\nMBTI: ${p.mbti}\n感性タイプ: ${p.sensibility_type}\nキーワード: ${(p.keywords||[]).join(' · ')}\n象徴の色: ${p.color_word||''}\n\n${p.card_desc||''}\n\n#アート部 #感性のZINE #ARTSELF`;
+  navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+}
+
+function showError(msg) {
+  document.getElementById('content').innerHTML = `
+    <div class="loading-state">
+      <div class="loading-text">${msg}</div>
+      <div style="margin-top:1rem;"><a href="../index.html" style="font-family:var(--scrawl);color:var(--ink2);">← トップに戻る</a></div>
+    </div>`;
 }
 
 loadProfile();
