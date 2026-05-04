@@ -302,7 +302,8 @@ async function loadProfile() {
       const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { data } = await supabase.from('profiles').select('*').eq('id', id).single();
       if (data) profile = data;
-  } catch(e) { console.error('error:', e); }
+    } catch(e) {}
+  }
 
   // デモデータにフォールバック
   if (!profile) profile = DEMO_PROFILES[id];
